@@ -1,0 +1,61 @@
+/*
+* @file project.c
+* @author Почеп Юрій Юрійович, гр. 515-і
+* @date   02.07.2021
+* @brief  Практика
+* Дзеркальне відображення точки або точок через задану пряму.
+*/
+#include<stdio.h>
+#include<math.h>
+#include<locale.h>
+#include<stdlib.h>
+
+
+int main()
+{
+	double dot_x, dot_y;
+	double x, y, c;
+
+	setlocale(LC_ALL, "Rus");
+
+	printf("Введите координату точки в виде формы x+yi.\n");
+
+	if ((scanf_s("%lF+%lFi", &dot_x, &dot_y) != 2) || (getchar() != '\n'))
+	{
+		printf("Ошибка!\n");
+		exit(-1);
+	}
+
+	printf("Введите коэфициенты прямой ax+by+c=0 в виде ax+by+c.\n");
+	if ((scanf_s("%lFx+%lFy+%lF", &x, &y, &c) != 3) || (getchar() != '\n'))
+	{
+		printf("Ошибка!\n");
+		exit(-1);
+	}
+	if ((x == 0) || (y == 0))
+	{
+		printf("Ошибка! Коэффициенты x или y не должны равнятся нулю.\n");
+		exit(-1);
+	}
+
+	double yzero = (-c) / y;
+	double k = x / y;
+
+	double corn = atan(k);
+
+	double sX_dot = ((-dot_x) * cos(corn)) - ((yzero - dot_y) * sin(corn));
+	double sY_dot = ((-dot_x) * sin(corn)) + ((yzero - dot_y) * cos(corn));
+
+	sX_dot = -sX_dot;
+
+	double accsX_dot = sX_dot;
+
+	sX_dot = ((sX_dot * cos(corn)) + (sY_dot * sin(corn)));
+	sY_dot = -((accsX_dot * sin(corn)) - (sY_dot * cos(corn)));
+
+	sY_dot += yzero;
+
+	printf("%lf:%lf\n", sX_dot, sY_dot);
+
+	return;
+}
